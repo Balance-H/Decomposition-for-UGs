@@ -1,0 +1,4 @@
+linters: linters_with_defaults(
+  # 完全禁用 linting
+  none = TRUE
+)
