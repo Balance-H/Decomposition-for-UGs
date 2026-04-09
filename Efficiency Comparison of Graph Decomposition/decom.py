@@ -5,19 +5,15 @@ import pandas as pd
 import importlib.util
 
 # ==== 配置运行环境 ====
-# 1. 确保 vcpkg 的 DLL 可以找到
+# 1. 确保 vcpkg 的 igraph.DLL 可以找到
 os.environ['PATH'] = (
-    r"D:\vcpkg-master\installed\x64-windows\bin;" + os.environ['PATH']
+    r".\vcpkg-master\installed\x64-windows\bin;" + os.environ['PATH']
 )
 
 # 2. 把 C++ 扩展模块的路径加到 sys.path
-module_paths = [
-    os.path.abspath(".")  # 当前目录
-]
-
-for p in module_paths:
-    if p not in sys.path:
-        sys.path.append(p)
+BASE_DIR = os.path.dirname(__file__)
+COMPILED_DIR = os.path.join(BASE_DIR, "compiled_modules")
+sys.path.append(COMPILED_DIR)
 
 # ==== 封装动态加载函数 ====
 def load_module(module_name, so_path):
@@ -35,17 +31,17 @@ def load_module(module_name, so_path):
 # ==== 实际加载你的 C++ 扩展 ====
 decom_h = load_module(
     "decom_h",
-    r"D:\Jupyter\A_final_algorithms\netdecom_c\build\python_modules\decom_h.pyd",
+    os.path.join(COMPILED_DIR, "decom_h.pyd"),
 )
 
 decom_matrix = load_module(
     "decom_matrix",
-    r"D:\Jupyter\A_final_algorithms\decom_matrix\build\python_modules\Release\decom_matrix.pyd",
+    os.path.join(COMPILED_DIR, "decom_matrix.pyd"),
 )
 
 decom_mcs_m = load_module(
     "decom_mcs_m",
-    r"D:\Jupyter\A_final_algorithms\decom_mcs_m\build\python_modules\Release\decom_mcs_m.pyd",
+    os.path.join(COMPILED_DIR, "decom_mcs_m.pyd"),
 )
 
 
