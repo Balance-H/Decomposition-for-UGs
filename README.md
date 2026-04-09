@@ -14,8 +14,14 @@ The repository includes the implementations used in the numerical experiments re
 
 ## Dependencies
 
-Part of the Section 5.1 experiment relies on **gRips**, available at:  
-<https://github.com/hojsgaard/gRips>
+Part of the Section 5.1 experiment relies on **gRips**, available at:  <https://github.com/hojsgaard/gRips>
+
+The dynamic library `decom_h.dll` depends on `igraph.dll`, which is installed via `vcpkg-master` and located in `./vcpkg-master/installed/x64-windows/bin`. 
+To ensure that `decom_d.dll` can be loaded correctly in R, please set the system path in advance:
+
+```r
+Sys.setenv(PATH = paste("./vcpkg-master/installed/x64-windows/bin", Sys.getenv("PATH"), sep=";"))
+```
 
 For Section 5.2, the required C implementations have already been compiled into `.pyd` files and are provided in the folder `compiled_modules`.
 
