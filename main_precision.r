@@ -1,6 +1,3 @@
-# decom_h.dll depends on igraph.dll, which is installed via vcpkg-master and stored in this directory
-Sys.setenv(PATH = paste("D:/vcpkg-master/installed/x64-windows/bin", Sys.getenv("PATH"), sep=";"))
-
 # decom_h.dll contains the recursive_decom function used for igraph graph decomposition
 dyn.load("decom_h.dll")
 
