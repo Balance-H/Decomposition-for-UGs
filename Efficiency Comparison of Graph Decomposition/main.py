@@ -12,9 +12,9 @@ from decom import benchmark_real_graphs
 #   - rep: number of repetitions for each configuration
 #   - output_file: CSV file to save random graph results
 print("Starting random graph benchmarking...")
-ns = [100, 200, 300, 400, 500, 600, 700, 800, 900]
+ns = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000]
 ps = [0.1, 0.05, 0.01, 0.005]
-rep = 2
+rep = 50
 output_file_random = "results_random.csv"
 avg_results_random = benchmark_random_graphs(ns, ps, rep=rep, output_file=output_file_random)
 print(f"Random graph results saved to: {output_file_random}")
@@ -37,8 +37,8 @@ filenames = [
     "bio-CE-GT.txt",
     "DD6.txt",                          # Local edgelist file
     "as20000102.txt",
-    "CA-HepTh.txt"
-    #"com-youtube.ungraph.txt"           # Local edgelist file
+    "CA-HepTh.txt",
+    "com-youtube.ungraph.txt"           # Local edgelist file
 ]
 
 # CSV file for real graph results
@@ -56,7 +56,7 @@ for filename in filenames:
         
         avg_results = benchmark_real_graphs(
             filename, 
-            repeat=2, 
+            repeat=50, 
             add_connectivity=True,
             is_edgelist=is_local_edgelist
         )
