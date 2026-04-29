@@ -55,6 +55,66 @@ def is_equal(list1, list2):
     set2 = set(frozenset(edge) for edge in list2)
     return set1 == set2
 
+
+# ==========================
+# 工具函数
+# ==========================
+def is_equal(list1, list2):
+    set1 = set(frozenset(edge) for edge in list1)
+    set2 = set(frozenset(edge) for edge in list2)
+    return set1 == set2
+
+# ==========================
+# 从边列表文件加载图
+# ==========================
+def load_graph_from_edgelist(filename, directed=False):
+    """
+    从边列表文件加载图并转换为 igraph
+    :param filename: 边列表文件名，每行一条边（格式：node1 node2）
+    :param directed: 是否为有向图
+    :return: igraph.Graph 对象
+    """
+    import igraph
+    
+    edges = []
+    vertices_set = set()
+    
+    # Read edges from file
+    try:
+        with open(filename, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                # Skip empty lines and comments
+                if not line or line.startswith('#'):
+                    continue
+                # Parse edge
+                parts = line.split()
+                if len(parts) >= 2:
+                    try:
+                        u = int(parts[0])
+                        v = int(parts[1])
+                        edges.append((u, v))
+                        vertices_set.add(u)
+                        vertices_set.add(v)
+                    except ValueError:
+                        # If not integers, try string node names
+                        u = parts[0]
+                        v = parts[1]
+                        edges.append((u, v))
+                        vertices_set.add(u)
+                        vertices_set.add(v)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Could not find file: {filename}")
+    
+    # Create igraph from edges
+    if len(vertices_set) > 0:
+        G_ig = igraph.Graph(directed=directed)
+        G_ig.add_vertices(len(vertices_set))
+        G_ig.add_edges(edges)
+        return G_ig
+    else:
+        raise ValueError("No edges found in file")
+
 # ==========================
 # 对真实图进行性能测试
 # ==========================
@@ -64,11 +124,16 @@ def benchmark_real_graphs(filename, repeat=50, add_connectivity=True):
     :param filename: 图文件名
     :param repeat: 重复次数
     :param add_connectivity: 是否在图不连通时添加 n-1 条边
-    :return: dict，包括节点数、边数、三种算法平均运行时间
+    :param is_edgelist: 是否为本地边列表文件（True 表示从本地读取，False 表示从库中加载）
+    :return: dict,包括节点数、边数、三种算法平均运行时间
     """
     import netdecom as nd
 
-    G_ig = nd.get_example(filename, class_type="ig")
+    # Load graph based on whether it's an edgelist file or library example
+    if is_edgelist:
+        G_ig = load_graph_from_edgelist(filename, directed=False)
+    else:
+        G_ig = nd.get_example(filename, class_type="ig")
 
     if add_connectivity:
         connected_components = G_ig.components()
