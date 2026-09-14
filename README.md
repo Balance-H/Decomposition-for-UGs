@@ -1,6 +1,6 @@
-# Decomposition of Large-Scale Undirected Graphical Models via Local Expansion
+# Structural Decomposition and Local Collapsibility for Likelihood Inference in Graphical Models
 
-This repository contains the code accompanying the paper **“Decomposition of large-scale undirected graphical models via local expansion.”**
+This repository contains the code accompanying the paper **“Structural Decomposition and Local Collapsibility for Likelihood Inference in Graphical Models.”**
 
 ## Overview
 
@@ -52,4 +52,4 @@ For Section 5.2, the required C implementations have already been compiled into 
 
 If you use this repository, please cite the corresponding paper:
 
-**Decomposition of large-scale undirected graphical models via local expansion**
+**Structural Decomposition and Local Collapsibility for Likelihood Inference in Graphical Models**
